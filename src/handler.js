@@ -132,7 +132,29 @@ const getAllBooks = (request, h) => {
     return response;
 };
 
+const getBookByID = (request, h) => {
+    const { id } = request.params;
+    const book = books.filter((item) => item.id === id)[0];
+
+    if (book) {
+        return {
+            status: 'success',
+            data: {
+                book,
+            },
+        };
+    };
+
+    const response = h.response({
+        status: 'fail',
+        message: 'Buku tidak ditemukan'
+    });
+    response.code(404);
+    return response;
+};
+
 module.exports = {
     addBook,
     getAllBooks,
+    getBookByID,
 };
