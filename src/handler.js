@@ -15,7 +15,7 @@ const addBook = (request, h) => {
         finished = true;
     };
 
-    if (!name) {
+    if (name === undefined) {
         const response = h.response({
             status: 'fail',
             message: 'Gagal menambahkan buku. Mohon isi nama buku'
@@ -59,14 +59,80 @@ const addBook = (request, h) => {
         status: 'error',
         message: 'Buku gagal ditambahkan'
     });
-
     response.code(500);
     return response;
 };
 
-const getAllBooks = (request, h) => {};
+const getAllBooks = (request, h) => {
+    let arrBooks = books;
+    const filterBooks = [];
+    const result = [];
+    const { reading, finished, name: nameBooks } = request.query;
+
+    if (nameBooks) {
+        const strRegex = new RegExp(`\\b${nameBooks}\\b`, 'gi');
+        books.forEach((book) => {
+            if (book.name.match(strRegex)) {
+                filterBooks.push(book);
+            };
+        });
+        arrBooks = filterBooks;
+    ;}
+
+    if (reading !== undefined) {
+        if (reading === '1') {
+            books.forEach((book) => {
+                if (book.reading) {
+                    filterBooks.push(book);
+                };
+            });
+            arrBooks = filterBooks;
+        } else if (reading === '0') {
+            books.forEach((book) => {
+                if (!book.reading) {
+                    filterBooks.push(book);
+                };
+            });
+            arrBooks = filterBooks;
+        };
+    };
+
+    if (finished !== undefined) {
+        if (finished === '1') {
+            books.forEach((book) => {
+                if (book.finished) {
+                    filterBooks.push(book);
+                };
+            });
+            arrBooks = filterBooks;
+        } else if (finished === '0') {
+            books.forEach((book) => {
+                if (!book.finished) {
+                    filterBooks.push(book);
+                };
+            });
+            arrBooks = filterBooks;
+        };
+    };
+
+    if (arrBooks) {
+        arrBooks.forEach((book) => {
+            const { id, name, publisher } = book;
+            result.push({ id, name, publisher });
+        });
+    };
+
+    const response = h.response({
+        status: 'success',
+        data: {
+            books: result,
+        },
+    });
+    response.code(200);
+    return response;
+};
 
 module.exports = {
     addBook,
-    getAllBooks
+    getAllBooks,
 };
