@@ -1,0 +1,26 @@
+{
+  "name": "bookshelf-api",
+  "version": "1.0.0",
+  "description": "final submission dicoding bookshelf-api with hapi",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iyanrspian/bookshelf-api.git"
+  },
+  "author": "iyanrspian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iyanrspian/bookshelf-api/issues"
+  },
+  "homepage": "https://github.com/iyanrspian/bookshelf-api#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^20.1.3",
+    "nanoid": "^3.1.23"
+  }
+}
